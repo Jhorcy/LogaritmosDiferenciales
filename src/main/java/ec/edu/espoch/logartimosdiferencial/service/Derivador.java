@@ -11,7 +11,7 @@ package ec.edu.espoch.logartimosdiferencial.service;
 public class Derivador {
 
     public static String derivar(String polinomio) {
-        polinomio = polinomio.trim();
+        polinomio = polinomio.trim().toLowerCase();
         String[] terminos = polinomio.split("(?=[+-])");
         String resultado = "";
 

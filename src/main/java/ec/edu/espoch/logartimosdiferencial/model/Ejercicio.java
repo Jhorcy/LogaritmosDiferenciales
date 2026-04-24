@@ -10,7 +10,7 @@ package ec.edu.espoch.logartimosdiferencial.model;
  */
 public class Ejercicio {
 
-    private int id;
+    private  int id;
     private FormulaPredefinida formula;
     private double valorX;
     private String fecha;
