@@ -14,8 +14,8 @@ public class LogartimosDiferencial {
     public static void main(String[] args) {
 
         LogDataSource gestor = new LogDataSource(); // objeto
-        Scanner scanner      = new Scanner(System.in);
-        int opcion           = 0; // diferente a gestor
+        Scanner scanner = new Scanner(System.in);
+        int opcion = 0; // diferente a gestor
 
         do {
             System.out.println("------------------------------");
@@ -32,24 +32,19 @@ public class LogartimosDiferencial {
             switch (opcion) {
 
                 case 1:
-                    System.out.println("\n── Formulas disponibles ──");
+                    System.out.println("\n-- Formulas disponibles --");
                     gestor.mostrarFormulas();
 
                     System.out.print("\nElige el numero de formula: ");
                     int idFormula = scanner.nextInt();
-                    scanner.nextLine(); // limpia el buffer
+                    scanner.nextLine();
 
-                    // pide u y u' siempre
-                    System.out.print("Ingresa u (ej: 3x-1): ");
+                    // solo pide u — la app deriva sola
+                    System.out.print("Ingresa la funcion dentro del logaritmo");
+                    System.out.print(" (ej: 3x-1, x^2-3x, 2x^3): ");
                     String u = scanner.nextLine();
-
-                    System.out.print("Ingresa u' (ej: 3): ");
-                    String uPrima = scanner.nextLine();
-
                     gestor.setU(u);
-                    gestor.setUPrima(uPrima);
 
-                    // datos extra según la fórmula
                     if (idFormula == 2) {
                         System.out.print("Ingresa la base b (ej: 10): ");
                         gestor.setBase(scanner.nextLine());

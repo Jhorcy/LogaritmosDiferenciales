@@ -1,3 +1,4 @@
+ec\edu\espoch\logartimosdiferencial\service\Derivador.class
 ec\edu\espoch\logartimosdiferencial\model\FormulaPredefinida.class
 ec\edu\espoch\logartimosdiferencial\Datasource\LogDataSource.class
 ec\edu\espoch\logartimosdiferencial\Dao\ILogDao.class
