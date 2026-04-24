@@ -2,5 +2,4 @@ ec\edu\espoch\logartimosdiferencial\model\FormulaPredefinida.class
 ec\edu\espoch\logartimosdiferencial\Datasource\LogDataSource.class
 ec\edu\espoch\logartimosdiferencial\Dao\ILogDao.class
 ec\edu\espoch\logartimosdiferencial\model\Ejercicio.class
-ec\edu\espoch\logdiff\Application.class
 ec\edu\espoch\logartimosdiferencial\LogartimosDiferencial.class

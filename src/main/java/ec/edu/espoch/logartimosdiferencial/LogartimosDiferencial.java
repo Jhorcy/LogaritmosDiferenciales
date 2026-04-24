@@ -13,9 +13,9 @@ public class LogartimosDiferencial {
 
     public static void main(String[] args) {
 
-        LogDataSource gestor = new LogDataSource(); // ✅ el objeto
+        LogDataSource gestor = new LogDataSource(); // objeto
         Scanner scanner      = new Scanner(System.in);
-        int opcion           = 0; // ✅ nombre diferente a gestor
+        int opcion           = 0; // diferente a gestor
 
         do {
             System.out.println("------------------------------");
@@ -26,7 +26,8 @@ public class LogartimosDiferencial {
             System.out.println("| 3. Salir                   |");
             System.out.println("------------------------------");
             System.out.print("Elige una opcion: ");
-            opcion = scanner.nextInt(); // ✅ scanner minúscula
+            opcion = scanner.nextInt();
+            scanner.nextLine();
 
             switch (opcion) {
 
@@ -35,17 +36,39 @@ public class LogartimosDiferencial {
                     gestor.mostrarFormulas();
 
                     System.out.print("\nElige el numero de formula: ");
-                    int idFormula = scanner.nextInt(); // ✅ scanner minúscula
+                    int idFormula = scanner.nextInt();
+                    scanner.nextLine(); // limpia el buffer
 
-                    System.out.print("Ingresa el valor de x: ");
-                    double valorX = scanner.nextDouble(); // ✅ scanner minúscula
+                    // pide u y u' siempre
+                    System.out.print("Ingresa u (ej: 3x-1): ");
+                    String u = scanner.nextLine();
 
-                    if (gestor.resolver(idFormula, valorX)) {
+                    System.out.print("Ingresa u' (ej: 3): ");
+                    String uPrima = scanner.nextLine();
+
+                    gestor.setU(u);
+                    gestor.setUPrima(uPrima);
+
+                    // datos extra según la fórmula
+                    if (idFormula == 2) {
+                        System.out.print("Ingresa la base b (ej: 10): ");
+                        gestor.setBase(scanner.nextLine());
+                    }
+                    if (idFormula == 3) {
+                        System.out.print("Ingresa el valor de a (ej: 5): ");
+                        gestor.setA(scanner.nextLine());
+                    }
+                    if (idFormula == 4) {
+                        System.out.print("Ingresa el valor de n (ej: 2): ");
+                        gestor.setN(scanner.nextLine());
+                    }
+
+                    if (gestor.resolver(idFormula, 0)) {
                         gestor.imprimirResultado();
                         gestor.guardar();
-                        System.out.println("\n✅ Ejercicio guardado en historial.");
+                        System.out.println("\nEjercicio guardado en historial.");
                     } else {
-                        System.out.println("\n⚠ Formula no encontrada.");
+                        System.out.println("\nFormula no encontrada.");
                     }
                     break;
 
@@ -55,15 +78,15 @@ public class LogartimosDiferencial {
                     break;
 
                 case 3:
-                    System.out.println("\nHasta luego ");
+                    System.out.println("\nHasta luego!");
                     break;
 
                 default:
-                    System.out.println("\n⚠ Opcion invalida, intenta de nuevo.");
+                    System.out.println("\nOpcion invalida.");
             }
 
-        } while (opcion != 3); // ✅ dentro del main
+        } while (opcion != 3);
 
-        scanner.close(); // ✅ scanner minúscula
-    }               // ← cierra el main
-}                   // ← cierra la clase
+        scanner.close();
+    }
+}

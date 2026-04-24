@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ec.edu.espoch.logartimosdiferencial.Datasource;
 
 import ec.edu.espoch.logartimosdiferencial.Dao.ILogDao;
@@ -10,66 +6,52 @@ import ec.edu.espoch.logartimosdiferencial.model.FormulaPredefinida;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-/**
- *
- * @author JHORCY
- */
 public class LogDataSource implements ILogDao {
 
     private FormulaPredefinida[] formulas;
     private ArrayList<Ejercicio> historial;
-    private FormulaPredefinida formulaElegida;
-    private double valorX;
-    private int contadorId;
+    private FormulaPredefinida   formulaElegida;
+    private int                  contadorId;
+    private String u;
+    private String uPrima;
+    private String base;
+    private String a;
+    private String n;
 
     public LogDataSource() {
-        historial = new ArrayList<>();
+        historial  = new ArrayList<>();
         contadorId = 1;
 
         formulas = new FormulaPredefinida[]{
-            new FormulaPredefinida(
-            1,
-            "Potencia variable",
-            "x^x",
-            "f'(x) = x^x · (ln(x) + 1)",
-            "Paso 1: Aplicar ln → ln(f(x)) = x·ln(x)",
-            "Paso 2: Derivar → f'(x)/f(x) = ln(x) + 1",
-            "Paso 3: f'(x) = x^x · (ln(x) + 1)"
-            ),
-            new FormulaPredefinida(
-            2,
-            "Potencia trigonométrica",
-            "x^(sen x)",
-            "f'(x) = x^(senx) · (cos(x)·ln(x) + sen(x)/x)",
-            "Paso 1: Aplicar ln → ln(f(x)) = sen(x)·ln(x)",
-            "Paso 2: Derivar → f'(x)/f(x) = cos(x)·ln(x) + sen(x)/x",
-            "Paso 3: f'(x) = x^(senx) · (cos(x)·ln(x) + sen(x)/x)"
-            ),
-            new FormulaPredefinida(
-            3,
-            "Logaritmo en base variable",
-            "(ln x)^x",
-            "f'(x) = (ln x)^x · (ln(ln x) + 1/ln(x))",
-            "Paso 1: Aplicar ln → ln(f(x)) = x·ln(ln(x))",
-            "Paso 2: Derivar → f'(x)/f(x) = ln(ln(x)) + 1/ln(x)",
-            "Paso 3: f'(x) = (ln x)^x · (ln(ln x) + 1/ln(x))"
-            )
+            new FormulaPredefinida(1, "f(x) = ln(u)",
+                "ln(u)", "f'(x) = u'/u", "", "", ""),
+            new FormulaPredefinida(2, "f(x) = log_b(u)",
+                "log_b(u)", "f'(x) = u'/(u*ln(b))", "", "", ""),
+            new FormulaPredefinida(3, "f(x) = a*ln(u)",
+                "a*ln(u)", "f'(x) = a*u'/u", "", "", ""),
+            new FormulaPredefinida(4, "f(x) = ln(u)^n",
+                "ln(u)^n", "f'(x) = n*ln(u)^(n-1)*u'/u", "", "", "")
         };
     }
 
+    // ── getters ──────────────────────────────────────
+    public FormulaPredefinida[] getFormulas()       { return formulas; }
+    public ArrayList<Ejercicio> getHistorial()      { return historial; }
+    public FormulaPredefinida   getFormulaElegida() { return formulaElegida; }
+
+    // ── setters ──────────────────────────────────────
+    public void setU(String u)           { this.u = u; }
+    public void setUPrima(String uPrima) { this.uPrima = uPrima; }
+    public void setBase(String base)     { this.base = base; }
+    public void setA(String a)           { this.a = a; }
+    public void setN(String n)           { this.n = n; }
+
     
-    public FormulaPredefinida[] getFormulas() {
-        return formulas;
-    }
-
-    public ArrayList<Ejercicio> getHistorial() {
-        return historial;
-    }
-
     @Override
     public void mostrarFormulas() {
         for (FormulaPredefinida f : formulas) {
-            System.out.println(f.getId() + ". f(x) = " + f.getExpresion());
+            System.out.println(f.getId() + ".  " + f.getNombre()
+                + "   ->   " + f.getDerivada());
         }
     }
 
@@ -78,7 +60,6 @@ public class LogDataSource implements ILogDao {
         for (FormulaPredefinida f : formulas) {
             if (f.getId() == idFormula) {
                 this.formulaElegida = f;
-                this.valorX = valorX;
                 return true;
             }
         }
@@ -87,25 +68,87 @@ public class LogDataSource implements ILogDao {
 
     @Override
     public void imprimirResultado() {
-        if (formulaElegida == null) {
-            return;
+        if (formulaElegida == null) return;
+
+        System.out.println("\n-- Resolucion paso a paso --");
+
+        switch (formulaElegida.getId()) {
+
+            case 1: // f(x) = ln(u)
+                System.out.println("Formula:  f(x) = ln(u)");
+                System.out.println("---------------------------------");
+                System.out.println("Paso 1: Identificar u");
+                System.out.println("        u  = " + u);
+                System.out.println("Paso 2: Derivar u");
+                System.out.println("        u' = " + uPrima);
+                System.out.println("Paso 3: Aplicar f'(x) = u'/u");
+                System.out.println("        f'(x) = " + uPrima
+                    + " / (" + u + ")");
+                System.out.println("---------------------------------");
+                System.out.println("Resultado: f'(x) = " + uPrima
+                    + " / (" + u + ")");
+                break;
+
+            case 2: // f(x) = log_b(u)
+                System.out.println("Formula:  f(x) = log_" + base + "(u)");
+                System.out.println("---------------------------------");
+                System.out.println("Paso 1: Identificar u y base b");
+                System.out.println("        u  = " + u);
+                System.out.println("        b  = " + base);
+                System.out.println("Paso 2: Derivar u");
+                System.out.println("        u' = " + uPrima);
+                System.out.println("Paso 3: Aplicar f'(x) = u'/(u·ln(b))");
+                System.out.println("        f'(x) = " + uPrima
+                    + " / ((" + u + ")·ln(" + base + "))");
+                System.out.println("---------------------------------");
+                System.out.println("Resultado: f'(x) = " + uPrima
+                    + " / ((" + u + ")·ln(" + base + "))");
+                break;
+
+            case 3: // f(x) = a·ln(u)
+                System.out.println("Formula:  f(x) = " + a + "·ln(u)");
+                System.out.println("---------------------------------");
+                System.out.println("Paso 1: Identificar a y u");
+                System.out.println("        a  = " + a);
+                System.out.println("        u  = " + u);
+                System.out.println("Paso 2: Derivar u");
+                System.out.println("        u' = " + uPrima);
+                System.out.println("Paso 3: Aplicar f'(x) = a·u'/u");
+                System.out.println("        f'(x) = " + a + "·"
+                    + uPrima + " / (" + u + ")");
+                System.out.println("---------------------------------");
+                System.out.println("Resultado: f'(x) = " + a + "·"
+                    + uPrima + " / (" + u + ")");
+                break;
+
+            case 4: // f(x) = ln(u)^n
+                System.out.println("Formula:  f(x) = ln(u)^" + n);
+                System.out.println("---------------------------------");
+                System.out.println("Paso 1: Identificar u y n");
+                System.out.println("        u  = " + u);
+                System.out.println("        n  = " + n);
+                System.out.println("Paso 2: Derivar u");
+                System.out.println("        u' = " + uPrima);
+                System.out.println("Paso 3: Aplicar f'(x) = n·ln(u)^(n-1)·u'/u");
+                System.out.println("        f'(x) = " + n
+                    + "·ln(" + u + ")^(" + n + "-1)·"
+                    + uPrima + "/(" + u + ")");
+                System.out.println("---------------------------------");
+                System.out.println("Resultado: f'(x) = " + n
+                    + "·ln(" + u + ")^(" + n + "-1)·"
+                    + uPrima + "/(" + u + ")");
+                break;
         }
-        System.out.println(formulaElegida.getPaso1());
-        System.out.println(formulaElegida.getPaso2());
-        System.out.println(formulaElegida.getPaso3());
-        System.out.println("Resultado: " + formulaElegida.getDerivada());
     }
 
     @Override
     public boolean guardar() {
-        if (formulaElegida == null) {
-            return false;
-        }
+        if (formulaElegida == null) return false;
         Ejercicio e = new Ejercicio(
-                contadorId++,
-                formulaElegida,
-                valorX,
-                LocalDate.now().toString()
+            contadorId++,
+            formulaElegida,
+            0,
+            LocalDate.now().toString()
         );
         historial.add(e);
         return true;
@@ -113,13 +156,12 @@ public class LogDataSource implements ILogDao {
 
     @Override
     public void mostrarHistorial() {
+        if (historial.isEmpty()) {
+            System.out.println("No hay ejercicios en el historial.");
+            return;
+        }
         for (Ejercicio e : historial) {
             System.out.println(e.toString());
         }
-    }
-
-    // getter para la vista — devuelve la fórmula activa
-    public FormulaPredefinida getFormulaElegida() {
-        return formulaElegida;
     }
 }
