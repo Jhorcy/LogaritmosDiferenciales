@@ -162,14 +162,6 @@ public class LogDataSource implements ILogDao {
             }
         }
     }
-    @Override
-    public boolean guardar() {
-        return false;
-    }
-
-    @Override
-    public void mostrarHistorial() {
-    }
 
 }
 

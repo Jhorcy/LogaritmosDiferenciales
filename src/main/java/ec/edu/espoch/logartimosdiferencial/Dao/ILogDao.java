@@ -16,7 +16,4 @@ public interface ILogDao {
 
     public void imprimirResultado();
 
-    public boolean guardar();
-
-    public void mostrarHistorial();
 }

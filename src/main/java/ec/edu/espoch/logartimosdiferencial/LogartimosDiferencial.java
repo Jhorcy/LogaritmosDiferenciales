@@ -38,7 +38,7 @@ public class LogartimosDiferencial {
                         int idFormula = scanner.nextInt();
                         scanner.nextLine();
                         
-                        // solo pide u — la app deriva sola
+                       
                         System.out.print("Ingresa la funcion dentro del logaritmo");
                         System.out.print(" (ej: x^2-3x): ");
                         String u = scanner.nextLine();
@@ -56,14 +56,16 @@ public class LogartimosDiferencial {
                             System.out.print("Ingresa el valor de n (ej: 2): ");
                             gestor.setN(scanner.nextLine());
                         }
+                        gestor.resolver(idFormula, 0);
+                        gestor.imprimirResultado();
                         break;
                         
                     case 2:
-                        System.out.println("\n──Hasta luego  ──");
+                        System.out.println("\n Hasta luego ");
                         break;
                         
                     default:
-                        System.out.println("\nOpcion invalida.");
+                        System.out.println("\n Opcion invalida. ");
                 }
                 
             } while (opcion != 2);
